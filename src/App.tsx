@@ -5,7 +5,27 @@ import Home from "@/pages/home";
 import Register from "@/pages/register";
 import Media from "@/pages/media";
 import Checker from "@/pages/checker";
-import NotFound from "@/pages/not-found";
+
+function NotFound() {
+  return (
+    <div
+      style={{
+        backgroundColor: "#FF2222",
+        width: "100vw",
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontFamily: "'Arial Black', Arial, sans-serif",
+        fontWeight: 900,
+        fontSize: "2rem",
+        color: "#000",
+      }}
+    >
+      404 — NOT FOUND
+    </div>
+  );
+}
 
 function Router() {
   return (
