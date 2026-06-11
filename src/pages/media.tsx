@@ -10,10 +10,6 @@ export default function Media() {
   const [, navigate] = useLocation();
   const [selected, setSelected] = useState<number | null>(null);
 
-  function handleTap(i: number) {
-    setSelected(selected === i ? null : i);
-  }
-
   return (
     <div
       className="relative w-full min-h-screen flex flex-col"
@@ -46,61 +42,84 @@ export default function Media() {
         </button>
       </div>
 
-      {/* Grid container */}
-      <div className="flex-1 flex items-start justify-center px-4" style={{ paddingTop: "28px", paddingBottom: "24px" }}>
-        <div
-          style={{
-            background: "#D0D0D0",
-            borderRadius: "20px",
-            border: "3px solid #111",
-            boxShadow: "6px 6px 0 #000",
-            padding: "16px",
-            width: "100%",
-            maxWidth: "860px",
-          }}
-        >
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "20px", padding: "20px 16px 24px" }}>
+
+        {/* Preview box — top, square, only visible when image selected */}
+        {selected !== null && (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <div
+              style={{
+                width: "100%",
+                maxWidth: "500px",
+                aspectRatio: "1 / 1",
+                borderRadius: "18px",
+                border: "3px solid #FFB800",
+                boxShadow: "4px 4px 0 #000",
+                overflow: "hidden",
+                background: "#e8e0f0",
+              }}
+            >
+              <img
+                src={IMAGES[selected].src}
+                alt={IMAGES[selected].alt}
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Grid */}
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "10px",
+              background: "#D0D0D0",
+              borderRadius: "20px",
+              border: "3px solid #111",
+              boxShadow: "6px 6px 0 #000",
+              padding: "16px",
+              width: "100%",
+              maxWidth: "860px",
             }}
           >
-            {IMAGES.map(({ src, alt }, i) => {
-              const isSelected = selected === i;
-              return (
-                <div
-                  key={src}
-                  onClick={() => handleTap(i)}
-                  style={{
-                    gridColumn: isSelected ? "1 / -1" : undefined,
-                    borderRadius: "14px",
-                    border: isSelected ? "3px solid #FFB800" : "3px solid #111",
-                    overflow: "hidden",
-                    aspectRatio: isSelected ? "16 / 9" : "1 / 1",
-                    background: "#e8e0f0",
-                    boxShadow: isSelected ? "0 0 0 3px #FFB800, 3px 3px 0 #000" : "3px 3px 0 #000",
-                    cursor: "pointer",
-                    transition: "all 0.25s ease",
-                  }}
-                >
-                  <img
-                    src={src}
-                    alt={alt}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, 1fr)",
+                gap: "10px",
+              }}
+            >
+              {IMAGES.map(({ src, alt }, i) => {
+                const isSelected = selected === i;
+                return (
+                  <div
+                    key={src}
+                    onClick={() => setSelected(isSelected ? null : i)}
                     style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: isSelected ? "contain" : "cover",
-                      display: "block",
-                      background: isSelected ? "#1a1a2e" : "transparent",
+                      borderRadius: "14px",
+                      border: isSelected ? "3px solid #FFB800" : "3px solid #111",
+                      overflow: "hidden",
+                      aspectRatio: "1 / 1",
+                      background: "#e8e0f0",
+                      boxShadow: isSelected ? "0 0 0 2px #FFB800, 2px 2px 0 #000" : "3px 3px 0 #000",
+                      cursor: "pointer",
+                      opacity: selected !== null && !isSelected ? 0.65 : 1,
+                      transform: isSelected ? "scale(0.94)" : "scale(1)",
+                      transition: "all 0.2s ease",
                     }}
-                  />
-                </div>
-              );
-            })}
+                  >
+                    <img
+                      src={src}
+                      alt={alt}
+                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 }
+            
