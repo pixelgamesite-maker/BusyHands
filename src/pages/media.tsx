@@ -12,20 +12,29 @@ export default function Media() {
 
   return (
     <div
-      className="relative w-full min-h-screen flex flex-col"
-      style={{ backgroundColor: "#FF2222" }}
+      style={{
+        backgroundColor: "#FF2222",
+        width: "100%",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+      }}
     >
       {/* Top nav bar */}
       <div
-        className="flex justify-between items-center px-6 py-3"
         style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "12px 24px",
           background: "#111",
           fontFamily: "'Arial Black', Arial, sans-serif",
           fontWeight: 900,
           fontSize: "0.85rem",
           letterSpacing: "0.1em",
           color: "#fff",
-          zIndex: 10,
+          flexShrink: 0,
         }}
       >
         <button
@@ -42,84 +51,92 @@ export default function Media() {
         </button>
       </div>
 
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "20px", padding: "20px 16px 24px" }}>
-
-        {/* Preview box — top, square, only visible when image selected */}
-        {selected !== null && (
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <div
-              style={{
-                width: "100%",
-                maxWidth: "500px",
-                aspectRatio: "1 / 1",
-                borderRadius: "18px",
-                border: "3px solid #FFB800",
-                boxShadow: "4px 4px 0 #000",
-                overflow: "hidden",
-                background: "#e8e0f0",
-              }}
-            >
-              <img
-                src={IMAGES[selected].src}
-                alt={IMAGES[selected].alt}
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Grid */}
-        <div style={{ display: "flex", justifyContent: "center" }}>
+      {/* Preview area — fills remaining space above grid */}
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "12px 16px 8px",
+          overflow: "hidden",
+        }}
+      >
+        {selected !== null ? (
           <div
             style={{
-              background: "#D0D0D0",
-              borderRadius: "20px",
-              border: "3px solid #111",
-              boxShadow: "6px 6px 0 #000",
-              padding: "16px",
               width: "100%",
-              maxWidth: "860px",
+              maxWidth: "500px",
+              aspectRatio: "1 / 1",
+              borderRadius: "18px",
+              border: "3px solid #FFB800",
+              boxShadow: "4px 4px 0 #000",
+              overflow: "hidden",
+              background: "#e8e0f0",
             }}
           >
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(4, 1fr)",
-                gap: "10px",
-              }}
-            >
-              {IMAGES.map(({ src, alt }, i) => {
-                const isSelected = selected === i;
-                return (
-                  <div
-                    key={src}
-                    onClick={() => setSelected(isSelected ? null : i)}
-                    style={{
-                      borderRadius: "14px",
-                      border: isSelected ? "3px solid #FFB800" : "3px solid #111",
-                      overflow: "hidden",
-                      aspectRatio: "1 / 1",
-                      background: "#e8e0f0",
-                      boxShadow: isSelected ? "0 0 0 2px #FFB800, 2px 2px 0 #000" : "3px 3px 0 #000",
-                      cursor: "pointer",
-                      opacity: selected !== null && !isSelected ? 0.65 : 1,
-                      transform: isSelected ? "scale(0.94)" : "scale(1)",
-                      transition: "all 0.2s ease",
-                    }}
-                  >
-                    <img
-                      src={src}
-                      alt={alt}
-                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+            <img
+              src={IMAGES[selected].src}
+              alt={IMAGES[selected].alt}
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+          </div>
+        ) : null}
+      </div>
+
+      {/* Grid — fixed at bottom, always visible */}
+      <div
+        style={{
+          flexShrink: 0,
+          padding: "0 12px 16px",
+        }}
+      >
+        <div
+          style={{
+            background: "#D0D0D0",
+            borderRadius: "20px",
+            border: "3px solid #111",
+            boxShadow: "6px 6px 0 #000",
+            padding: "12px",
+          }}
+        >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "8px",
+            }}
+          >
+            {IMAGES.map(({ src, alt }, i) => {
+              const isSelected = selected === i;
+              return (
+                <div
+                  key={src}
+                  onClick={() => setSelected(isSelected ? null : i)}
+                  style={{
+                    borderRadius: "12px",
+                    border: isSelected ? "3px solid #FFB800" : "3px solid #111",
+                    overflow: "hidden",
+                    aspectRatio: "1 / 1",
+                    background: "#e8e0f0",
+                    boxShadow: isSelected ? "0 0 0 2px #FFB800, 2px 2px 0 #000" : "2px 2px 0 #000",
+                    cursor: "pointer",
+                    opacity: selected !== null && !isSelected ? 0.6 : 1,
+                    transform: isSelected ? "scale(0.93)" : "scale(1)",
+                    transition: "all 0.18s ease",
+                  }}
+                >
+                  <img
+                    src={src}
+                    alt={alt}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
     </div>
   );
 }
-            
